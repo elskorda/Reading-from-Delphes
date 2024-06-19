@@ -30,7 +30,7 @@ def plot_and_save(*args):
         for histobj in args:
             hist=getattr(histobj, hname)
             hist.SetLineColor(colors.pop())
-    
+
             stack.Add(hist)
 
         # Draw stack
