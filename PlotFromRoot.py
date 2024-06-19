@@ -4,32 +4,43 @@ import argparse
 from analysis import Sample
 from analysis import ExampleAnalysis
            
-def plot_and_save(signal_hist, background_hist, title, x_label, y_label, output_png_file):
+def plot_and_save(*args):
     """
-    Creates a THStack to overlay the signal and background histograms, draws the 
+    Creates a THStack to overlay the histograms inside `*args, draws the
     stack on a canvas, and saves the plot as a PNG file.
     """
-    # Create a canvas
-    canvas = ROOT.TCanvas("canvas", title, 800, 600)
 
-    # Create THStack
-    stack = ROOT.THStack("stack", title)
+    #
+    # Get a list of histograms
 
-    # Set histogram colors
-    signal_hist.SetLineColor(ROOT.kRed)
-    background_hist.SetLineColor(ROOT.kBlue)
+    hnames=filter(lambda key: key.startswith('hist'), dir(args[0]))
     
-    stack.Add(signal_hist)
-    stack.Add(background_hist)
+    for hname in hnames:
+        print(f'Plotting {hname}')
+        # Create a canvas
+        canvas = ROOT.TCanvas()
 
-    # Draw stack
-    stack.Draw("nostack")
-    stack.GetXaxis().SetTitle(x_label)
-    stack.GetYaxis().SetTitle(y_label)
-    canvas.BuildLegend()
+        # Create THStack
+        stack = ROOT.THStack(f"hs_{hname}", '')
 
-    # Save the canvas as a PNG file
-    canvas.SaveAs(output_png_file)
+        exhist=getattr(args[0],hname)
+
+        # Set histogram colors and add them to the stack
+        colors=[ROOT.kBlue, ROOT.kRed]
+        for histobj in args:
+            hist=getattr(histobj, hname)
+            hist.SetLineColor(colors.pop())
+    
+            stack.Add(hist)
+
+        # Draw stack
+        stack.Draw("nostack")
+        stack.GetXaxis().SetTitle(exhist.GetXaxis().GetTitle())
+        stack.GetYaxis().SetTitle(exhist.GetYaxis().GetTitle())
+        canvas.BuildLegend()
+
+        # Save the canvas as a PNG file
+        canvas.SaveAs(f'{hname}.png')
 
 def main(signal_file, background_file):
     """
@@ -50,7 +61,7 @@ def main(signal_file, background_file):
     sig_hists=analysis.run(signal)
     bkg_hists=analysis.run(background)
 
-    plot_and_save(sig_hists.hist_muon0Pt, bkg_hists.hist_muon0Pt, '', 'leading muon p_{T} [GeV]', 'a.u.', 'MuonPT.png')
+    plot_and_save(sig_hists, bkg_hists)
 
 if __name__ == "__main__":
     # Set up argument parser
