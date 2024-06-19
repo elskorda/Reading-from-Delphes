@@ -45,13 +45,12 @@ def main(signal_file, background_file):
     background.add_file(background_file)
     background.open()
 
-    sig_analysis=ExampleAnalysis.ExampleAnalysis(signal)
-    bkg_analysis=ExampleAnalysis.ExampleAnalysis(background)
+    analysis=ExampleAnalysis.ExampleAnalysis()
 
-    sig_analysis.run()
-    bkg_analysis.run()
+    sig_hists=analysis.run(signal)
+    bkg_hists=analysis.run(background)
 
-    plot_and_save(sig_analysis.hist_muon0Pt, bkg_analysis.hist_muon0Pt, '', 'leading muon p_{T} [GeV]', 'a.u.', 'MuonPT.png')
+    plot_and_save(sig_hists.hist_muon0Pt, bkg_hists.hist_muon0Pt, '', 'leading muon p_{T} [GeV]', 'a.u.', 'MuonPT.png')
 
 if __name__ == "__main__":
     # Set up argument parser

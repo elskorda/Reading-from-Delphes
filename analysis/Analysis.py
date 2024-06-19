@@ -1,6 +1,6 @@
-class Analysis:
-    def __init__(self, sample):
-        self.sample = sample
+class Histograms:
+    def __init__(self, title):
+        self.title = title
 
     def create_histograms(self):
         """
@@ -13,7 +13,26 @@ class Analysis:
         """
         pass
 
-    def selection(self):
+    def fill_histograms(self, sample):
+        """
+        OVERLOAD THIS FUNCTION
+
+        Fill histograms with the currently loaded event inside the `sample`.
+
+        This function in called for each event.
+
+            Parameters
+        ----------
+        sample : Analysis.Sample
+            A sample object with the currently loaded event.
+        """
+        pass
+
+class Analysis:
+    def __init__(self, histogrammer):
+        self.histogrammer = histogrammer
+
+    def selection(self, sample):
         """
         OPTIONALLY OVERLOAD THIS FUNCTION
 
@@ -22,6 +41,11 @@ class Analysis:
 
         This function in called for each event.
 
+        Parameters
+        ----------
+        sample : Analysis.Sample
+            A sample object with the currently loaded event.
+
         Returns
         -------
         bool
@@ -29,26 +53,19 @@ class Analysis:
         """
         return True
 
-    def fill_histograms(self):
-        """
-        OVERLOAD THIS FUNCTION
-
-        Fill histograms with the currently loaded event inside the `sample`.
-
-        This function in called for each event.
-        """
-        pass
-
-    def run(self):
+    def run(self, sample):
         """
         Runs the analysis.
         """
-        self.create_histograms()
+        histograms = self.histogrammer(sample.title)
+        histograms.create_histograms()
 
-        for idx in range(self.sample.reader.GetEntries()):
-            self.sample.reader.ReadEntry(idx)
+        for idx in range(sample.reader.GetEntries()):
+            sample.reader.ReadEntry(idx)
 
-            if not self.selection():
+            if not self.selection(sample):
                 continue
 
-            self.fill_histograms()
+            histograms.fill_histograms(sample)
+
+        return histograms
