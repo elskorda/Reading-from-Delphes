@@ -2,33 +2,8 @@ import ROOT
 import argparse
 
 from analysis import Sample
-
-def event_loop(sample):
-    """
-    This fuction loops through events inside a sample, applies a basic selection
-    and fills histograms.
-    """
-        
-    # Define histograms
-    muon0_pt = ROOT.TH1F("muon0_pt", sample.title, 50, 0, 2000)
-
-    # Fill histograms 
-    for idx in range(sample.reader.GetEntries()):
-        sample.reader.ReadEntry(idx)
-
-        #
-        # Apply a selection
-        #
-
-        # Keep only events with a muon
-        if sample.Muon.GetEntries() == 0:
-            continue
-
-        muon0_pt.Fill(sample.Muon[0].PT)
-
-    # Done!
-    return muon0_pt
-            
+from analysis import ExampleAnalysis
+           
 def plot_and_save(signal_hist, background_hist, title, x_label, y_label, output_png_file):
     """
     Creates a THStack to overlay the signal and background histograms, draws the 
@@ -70,13 +45,13 @@ def main(signal_file, background_file):
     background.add_file(background_file)
     background.open()
 
-    signal_hist=event_loop(signal)
-    background_hist=event_loop(background)
+    sig_analysis=ExampleAnalysis.ExampleAnalysis(signal)
+    bkg_analysis=ExampleAnalysis.ExampleAnalysis(background)
 
-    plot_and_save(signal_hist, background_hist, '', 'leading muon p_{T} [GeV]', 'a.u.', 'MuonPT.png')
-    
-    # Create and plot distributions
-    #create_and_plot_distributions(signal_file, background_file)
+    sig_analysis.run()
+    bkg_analysis.run()
+
+    plot_and_save(sig_analysis.hist_muon0Pt, bkg_analysis.hist_muon0Pt, '', 'leading muon p_{T} [GeV]', 'a.u.', 'MuonPT.png')
 
 if __name__ == "__main__":
     # Set up argument parser
