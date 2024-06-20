@@ -7,6 +7,8 @@ from analysis import ExampleAnalysis
 
 from kkconfig import runconfig
 
+from kkroot import style
+
 def plot_and_save(*args):
     """
     Creates a THStack to overlay the histograms inside `*args, draws the
@@ -28,11 +30,11 @@ def plot_and_save(*args):
 
         exhist=getattr(args[0],hname)
 
-        # Set histogram colors and add them to the stack
+        # Create and style the histogram
         colors=[ROOT.kBlue, ROOT.kRed, ROOT.kBlack]
         for histobj in args:
             hist=getattr(histobj, hname)
-            hist.SetLineColor(colors.pop())
+            style.style(hist,**histobj.style)
 
             stack.Add(hist)
 
@@ -64,6 +66,7 @@ def main(runconfig_path):
 
         for p in path:
             sample.add_file(p)
+        sample.style=input.get('style', {})
         sample.open()
 
         samples.append(sample)

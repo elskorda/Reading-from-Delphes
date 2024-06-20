@@ -1,6 +1,7 @@
 class Histograms:
-    def __init__(self, title):
+    def __init__(self, title, style):
         self.title = title
+        self.style = style
 
     def create_histograms(self):
         """
@@ -57,7 +58,7 @@ class Analysis:
         """
         Runs the analysis.
         """
-        histograms = self.histogrammer(sample.title)
+        histograms = self.histogrammer(sample.title, sample.style)
         histograms.create_histograms()
 
         for idx in range(sample.reader.GetEntries()):

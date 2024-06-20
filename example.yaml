@@ -1,0 +1,13 @@
+inputs:
+  - path: ~/Sources/mg5amcnlo/PROC_ww_dilep/Events/run_01/tag_1_delphes_events.root
+    title: 78.9 GeV
+    style:
+      linecolor: kRed
+  - path: ~/Sources/mg5amcnlo/PROC_ww_dilep/Events/run_02/tag_1_delphes_events.root
+    title: 80.2 GeV
+    style:
+      linecolor: kBlack
+  - path: ~/Sources/mg5amcnlo/PROC_ww_dilep/Events/run_03/tag_1_delphes_events.root
+    title: 81.4 GeV
+    style:
+      linecolor: kBlue
