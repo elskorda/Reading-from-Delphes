@@ -26,7 +26,7 @@ def plot_and_save(*args):
         exhist=getattr(args[0],hname)
 
         # Set histogram colors and add them to the stack
-        colors=[ROOT.kBlue, ROOT.kRed]
+        colors=[ROOT.kBlue, ROOT.kRed, ROOT.kBlack]
         for histobj in args:
             hist=getattr(histobj, hname)
             hist.SetLineColor(colors.pop())
