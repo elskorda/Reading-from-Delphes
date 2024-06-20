@@ -1,3 +1,5 @@
+import ROOT
+
 class Histograms:
     def __init__(self, title, style):
         self.title = title
@@ -68,5 +70,12 @@ class Analysis:
                 continue
 
             histograms.fill_histograms(sample)
+
+        # Normalize all histograms to unity
+        for attrname in dir(histograms):
+            attr=getattr(histograms, attrname)
+            if not isinstance(attr,ROOT.TH1):
+                continue # not a histogram
+            attr.Scale(1./sample.reader.GetEntries())
 
         return histograms

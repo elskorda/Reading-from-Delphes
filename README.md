@@ -1,18 +1,28 @@
 # Reading-from-Delphes
- Simple pyroot scripts to read from delphes output and produce simple histogra,ms
+Simple pyroot scripts to read from Delphes output and produce simple histograms.
 
-## How to use 
-To get info on how to run open terminal and write 
+## Installation
+
+How to download and install this package on the B'ham PP cluster.
+
+```shell
+git clone https://github.com/elskorda/Reading-from-Delphes.git
+cd Reading-from-Delphes
+pipenv install --site-packages .
+```
+
+Create a local configuration file and edit it to include the path to your aMC@NLO with Delphes installed.
+```shell
+cp analysis.yaml.example .analysis.yaml
+vim .analysis.yaml
+```
+
+## How to use
+Run the following inside the `Reading-from-Delphes` directory.
 
 ```
-python PlotFromRoot.py -h
+python PlotFromRoot.py example.yaml
 ```
 
-Example 
-```
- PlotFromRoot.py --signal_file uC_ww_leplep_sqrts01000_mw80419.root --background_file uC_ww_leplep_sqrts01000_mw80419.root
-```
-** In the example above the same file is provided as signal and bg-- need to change**
-
-It works with signal samples provided [here](https://bilpa.docs.cern.ch/projects/wmass/samples/)
+It works with signal samples provided [here](https://bilpa.docs.cern.ch/projects/wmass/samples/).
 

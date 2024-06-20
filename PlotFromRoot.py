@@ -35,7 +35,7 @@ def plot_and_save(*args):
             hist=getattr(histobj, hname)
             style.style(hist,**histobj.style)
 
-            stack.Add(hist)
+            stack.Add(hist, 'HIST')
 
         # Draw stack
         stack.Draw("nostack")
