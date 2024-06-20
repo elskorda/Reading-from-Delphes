@@ -31,7 +31,6 @@ def plot_and_save(*args):
         exhist=getattr(args[0],hname)
 
         # Create and style the histogram
-        colors=[ROOT.kBlue, ROOT.kRed, ROOT.kBlack]
         for histobj in args:
             hist=getattr(histobj, hname)
             style.style(hist,**histobj.style)
