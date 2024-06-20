@@ -1,0 +1,13 @@
+inputs:
+  - path: /disk/moose/general/FutureWMass/samples/uC_ww_leplep_sqrts10000_mw78900.root
+    title: 78.9 GeV
+    style:
+      linecolor: kRed
+  - path: /disk/moose/general/FutureWMass/samples/uC_ww_leplep_sqrts10000_mw80200.root
+    title: 80.2 GeV
+    style:
+      linecolor: kBlack
+  - path: /disk/moose/general/FutureWMass/samples/uC_ww_leplep_sqrts10000_mw81400.root
+    title: 81.4 GeV
+    style:
+      linecolor: kBlue
